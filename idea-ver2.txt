@@ -1,0 +1,41 @@
+Input: Sequence
+Output: Sắp xếp/ Giá trị lớn nhất/ Giá trị nhỏ nhất
+  
+Lựa chọn: 
+1. Lựa chọn cách nhập chuỗi
+    a. 3, 4.5, 3/4, 2, 5, 100
+    b. 3 
+        ENTER
+        4.5
+        ENTER
+        6/5
+        ENTER
+  
+2. Lựa chọn chức năng 
+    a. Tìm giá trị lớn nhất
+    b. Tìm giá trị nhỏ nhất
+    c. Sắp xếp theo thuật toán
+        - Buble sort
+        - Insertion sort
+    d. Tìm kiếm phần tử --> xem phần tử này là phần tử lớn thứ bao nhiêu trong sequence
+        - Binary search
+        - Linear search
+  
+3. Lựa chọn tiếp tục hay dừng lại
+    a. Tiếp tục lựa chọn tính năng
+    b. Nhập chuỗi mới
+    c. Kết thúc chương trình
+
+Model: 
+    1. SequenceElement(String orginalElement, double converEachElement, int currentIndex, int newIndex)
+    2. OrderedSequence(ArrayList<SequenceElement>)
+    3. FindedResult(int indexOfTheElement, double valueOfTheElement)
+
+Controller:
+    1. Nhận yêu cầu cách thức nhập sequence
+    2. Nhận yêu cầu tương tác với chuỗi theo ý user
+    3. Nhận yêu cầu tiếp tục/ kết thúc
+
+Service: 
+    1. parseRawInput(String rawInput)
+    2. convertElement

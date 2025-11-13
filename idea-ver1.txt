@@ -1,0 +1,72 @@
+Ý TƯỞNG BAN ĐẦU: 
+Input: Sequence
+Output: Sắp xếp/ Giá trị lớn nhất/ Giá trị nhỏ nhất
+  
+Lựa chọn: 
+1. Lựa chọn cách nhập chuỗi
+    a. 3, 4.5, 3/4, 2, 5, 100
+    b. 3 
+        ENTER
+        4.5
+        ENTER
+        6/5
+        ENTER
+  
+2. Lựa chọn chức năng 
+    a. Tìm giá trị lớn nhất
+    b. Tìm giá trị nhỏ nhất
+    c. Sắp xếp theo thuật toán
+        - Buble sort
+        - Insertion sort
+    d. Tìm kiếm phần tử --> xem phần tử này là phần tử lớn thứ bao nhiêu trong sequence
+        - Binary search
+        - Linear search
+  
+3. Lựa chọn tiếp tục hay dừng lại
+    a. Tiếp tục lựa chọn tính năng
+    b. Nhập chuỗi mới
+    c. Kết thúc chương trình
+  
+Service:
+Trước khi làm cv chính: 
+1. isSequenceValid(rawInput)                        => (bool)
+2. converEachElement(String orginalElement)         => (double convertedElement)
+  
+3. parseSequenceInput(String rawInput)              => ParseSequenceResult(ArrayList<Double> sequence, ArrayList<String> rawInput, String rawInput)
+4. parseSequenceInput(ArrayList<String> rawInput)   => ParseSequenceResult(ArrayList<Double> sequence, ArrayList<String> rawInput) 
+   
+5. parseRawInput(String rawInput)                   => (ArrayList<String> rawInput) Dùng cho khi user chọn cách nhấp thứ 1
+  
+Vào làm vc chính:
+6. maxOfTheSequence(ArrayList<Double> sequence)     => FindedResult(double valueOfTheElement, int indexOfTheElement)
+7. minofTheSequence(ArrayList<Double> sequence)     => FindedResult(double valueOfTheElement, int indexOfTheElement)
+8. binarySearch(ArrayList<Double> sequence)         => FindedResult(double valueOfTheElement, int indexOfTheElement)
+9. linearSearch(ArrayList<Double> sequence)         => FindedResult(double valueOfTheElement, int indexOfTheElement)
+10. bubleSort(ArrayList<Double> sequence)           => (ArrayList<String> orderedSequence)
+11. insertionSort(ArrayList<Double> sequence)       => (ArrayList<String> orderedSequence)
+  
+View: 
+1. welComeMessage()                                                             => void
+2. printMinMax(ArrayList<String> rawInput, int indexOfTheElement)               => void //[3, 4.5, 3/4, 2, 5, >>100<<]
+3. printSearchedElement(ArrayList<String> rawInput, int indexOfTheElement)      => void //[3, >>4.5<<, 3/4, 2, 5, 100]
+4. printSortedSequence(ArrayList<String> rawInput)                              => void //[3, 4.5, 3/4, 2, 5, 100]
+  
+  
+  
+Model:
+1. UserIput(ArrayList<String> rawInput)
+1. ResultParseSequence(ArrayList<Double> sequence, ArrayList<String> rawInput, String rawInput)
+                      (ArrayList<Double> sequence, ArrayList<String> rawInput)
+2. MinMaxResult(double valueOfTheElement, int indexOfTheElement)
+  
+  
+  
+  
+Sắp xếp một chuỗi với format 3/4 
+0. Nhận chuỗi
+1. Convert -> Double
+2. Sắp xếp chuỗi đã convert
+3. Tính từng phần tử rawInput tìm kiếm trong orderedSequence -> trả về index (Input: ArrayList<String> -> Quét từng phần tử -> chuyển phần tử thành double -> tìm kiếm trong mảng double -> trả về index )
+4. Tạo một ArrayList<String> mới và paste String vào index đã tìm được 
+  
+ 
