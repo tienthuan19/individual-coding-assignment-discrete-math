@@ -1,6 +1,9 @@
 package com.lebuitienthuan.sequenceapp.view;
-
-class SequenceView {
+import java.util.Scanner;
+import java.util.List;
+import java.util.stream.Collectors;
+import com.lebuitienthuan.sequenceapp.models.NumberWrapper;
+public class SequenceView {
     private Scanner scanner;
 
     public SequenceView() {

@@ -1,11 +1,20 @@
 package com.lebuitienthuan.sequenceapp.controllers;
+import com.lebuitienthuan.sequenceapp.models.NumberWrapper; // Import NumberWrapper
+import com.lebuitienthuan.sequenceapp.models.SequenceModel; // Import SequenceModel
+import com.lebuitienthuan.sequenceapp.services.SequenceService; // Import SequenceService
+import com.lebuitienthuan.sequenceapp.view.SequenceView; // Import SequenceView
 
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.Scanner;
 // ============================= CONTROLLER =============================
 
 /**
  * CONTROLLER: Điều khiển luồng của ứng dụng, xử lý đầu vào, gọi Service và cập nhật View.
  */
-class SequenceController {
+public class  SequenceController {
     private SequenceModel model;
     private SequenceView view;
     private SequenceService service;

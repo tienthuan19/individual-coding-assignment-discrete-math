@@ -1,6 +1,7 @@
 package com.lebuitienthuan.sequenceapp.models;
 
-class SequenceModel {
+import java.util.List;
+public class SequenceModel {
     private List<NumberWrapper> sequence;
     private boolean isSorted = false;
 

@@ -7,7 +7,7 @@ package com.lebuitienthuan.sequenceapp.models;
  * Hỗ trợ chuyển đổi từ chuỗi (số nguyên, số thập phân, phân số) sang giá trị double để so sánh.
  * Phân số được xử lý bằng cách chia tử số cho mẫu số.
  */
-class NumberWrapper implements Comparable<NumberWrapper> {
+public class NumberWrapper implements Comparable<NumberWrapper> {
     private String originalValue; // Giá trị gốc của đầu vào (ví dụ: "3/4", "4.5", "100")
     private double numericValue; // Giá trị số sau khi chuyển đổi
 

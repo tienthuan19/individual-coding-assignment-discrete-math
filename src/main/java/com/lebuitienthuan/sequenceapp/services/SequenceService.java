@@ -5,7 +5,10 @@ package com.lebuitienthuan.sequenceapp.services;
 /**
  * SERVICE: Chứa các logic nghiệp vụ (thuật toán Max/Min, Sắp xếp, Tìm kiếm).
  */
-class SequenceService {
+import java.util.List;
+import java.util.Comparator;
+import com.lebuitienthuan.sequenceapp.models.NumberWrapper;
+public class SequenceService {
 
     /**
      * Tìm giá trị lớn nhất.
