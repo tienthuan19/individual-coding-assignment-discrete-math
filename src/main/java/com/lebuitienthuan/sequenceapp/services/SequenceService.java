@@ -1,18 +1,17 @@
-package com.lebuitienthuan.sequenceapp.services;
+
 
 // ============================= SERVICE =============================
 
 /**
  * SERVICE: Chứa các logic nghiệp vụ (thuật toán Max/Min, Sắp xếp, Tìm kiếm).
  */
+package com.lebuitienthuan.sequenceapp.services;
+
+import com.lebuitienthuan.sequenceapp.models.NumberWrapper;
 import java.util.List;
 import java.util.Comparator;
-import com.lebuitienthuan.sequenceapp.models.NumberWrapper;
-public class SequenceService {
 
-    /**
-     * Tìm giá trị lớn nhất.
-     */
+public class SequenceService {
     public NumberWrapper findMax(List<NumberWrapper> sequence) {
         if (sequence == null || sequence.isEmpty()) return null;
 
@@ -24,10 +23,6 @@ public class SequenceService {
         }
         return max;
     }
-
-    /**
-     * Tìm giá trị nhỏ nhất.
-     */
     public NumberWrapper findMin(List<NumberWrapper> sequence) {
         if (sequence == null || sequence.isEmpty()) return null;
 
@@ -39,11 +34,6 @@ public class SequenceService {
         }
         return min;
     }
-
-    /**
-     * Thuật toán Sắp xếp nổi bọt (Bubble Sort).
-     * Sắp xếp tại chỗ (in-place) và trả về một tham chiếu đến chuỗi đã được sắp xếp.
-     */
     public List<NumberWrapper> bubbleSort(List<NumberWrapper> sequence) {
         if (sequence == null || sequence.size() < 2) return sequence;
 
@@ -62,10 +52,6 @@ public class SequenceService {
         return sequence;
     }
 
-    /**
-     * Thuật toán Sắp xếp chèn (Insertion Sort).
-     * Sắp xếp tại chỗ (in-place) và trả về một tham chiếu đến chuỗi đã được sắp xếp.
-     */
     public List<NumberWrapper> insertionSort(List<NumberWrapper> sequence) {
         if (sequence == null || sequence.size() < 2) return sequence;
 
@@ -84,10 +70,6 @@ public class SequenceService {
         return sequence;
     }
 
-    /**
-     * Thuật toán Tìm kiếm tuyến tính (Linear Search).
-     * Tìm vị trí phần tử trong chuỗi (không yêu cầu sắp xếp).
-     */
     public int linearSearch(List<NumberWrapper> sequence, NumberWrapper target) {
         if (sequence == null || sequence.isEmpty()) return -1;
         
@@ -99,12 +81,6 @@ public class SequenceService {
         }
         return -1; // Không tìm thấy
     }
-
-    /**
-     * Thuật toán Tìm kiếm nhị phân (Binary Search).
-     * Yêu cầu chuỗi phải được sắp xếp.
-     * Tìm vị trí phần tử trong chuỗi.
-     */
     public int binarySearch(List<NumberWrapper> sequence, NumberWrapper target) {
         if (sequence == null || sequence.isEmpty()) return -1;
 
@@ -125,15 +101,6 @@ public class SequenceService {
         }
         return -1; // Không tìm thấy
     }
-    
-    /**
-     * Tìm hạng (thứ tự lớn thứ N) của một phần tử.
-     * Sử dụng chuỗi đã được sắp xếp TĂNG DẦN để xác định hạng.
-     * Hạng được tính là vị trí từ cuối lên (lớn thứ 1, lớn thứ 2,...).
-     * * @param sortedSequence Chuỗi đã được sắp xếp TĂNG DẦN.
-     * @param target Phần tử cần tìm hạng.
-     * @return Hạng của phần tử (lớn thứ N), 0 nếu không tìm thấy.
-     */
     public int findRank(List<NumberWrapper> sortedSequence, NumberWrapper target) {
         if (sortedSequence == null || sortedSequence.isEmpty()) return 0;
         

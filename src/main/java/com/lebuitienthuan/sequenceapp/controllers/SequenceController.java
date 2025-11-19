@@ -1,8 +1,9 @@
 package com.lebuitienthuan.sequenceapp.controllers;
-import com.lebuitienthuan.sequenceapp.models.NumberWrapper; // Import NumberWrapper
-import com.lebuitienthuan.sequenceapp.models.SequenceModel; // Import SequenceModel
-import com.lebuitienthuan.sequenceapp.services.SequenceService; // Import SequenceService
-import com.lebuitienthuan.sequenceapp.view.SequenceView; // Import SequenceView
+
+import com.lebuitienthuan.sequenceapp.models.NumberWrapper;
+import com.lebuitienthuan.sequenceapp.models.SequenceModel;
+import com.lebuitienthuan.sequenceapp.services.SequenceService;
+import com.lebuitienthuan.sequenceapp.view.SequenceView;
 
 import java.util.ArrayList;
 import java.util.Comparator;

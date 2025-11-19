@@ -12,16 +12,15 @@ public class SequenceView {
 
     public void displayWelcome() {
         System.out.println("==================================================");
-        System.out.println("  ỨNG DỤNG XỬ LÝ CHUỖI SỐ (SEQUENCE ANALYZER) 🚀");
-        System.out.println("  Mô hình: MVC (Java Thuần)");
+        System.out.println("  ỨNG DỤNG XỬ LÝ CHUỖI SỐ (SEQUENCE ANALYZER)");
+        System.out.println("  Ngôn Ngữ: Java");
         System.out.println("==================================================");
     }
 
     public void displayMenu() {
         System.out.println("\n--- MENU CHỨC NĂNG ---");
-        System.out.println("1. Lựa chọn cách nhập chuỗi");
+        System.out.println("1. Nhập chuỗi mới");
         System.out.println("2. Lựa chọn chức năng xử lý chuỗi");
-        System.out.println("3. Lựa chọn tiếp tục/dừng lại");
         System.out.println("0. Thoát chương trình");
         System.out.print("Vui lòng nhập lựa chọn (0-3): ");
     }
