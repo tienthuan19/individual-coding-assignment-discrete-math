@@ -10,11 +10,8 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.Scanner;
+import java.util.Collections;
 // ============================= CONTROLLER =============================
-
-/**
- * CONTROLLER: Điều khiển luồng của ứng dụng, xử lý đầu vào, gọi Service và cập nhật View.
- */
 public class  SequenceController {
     private SequenceModel model;
     private SequenceView view;
@@ -60,9 +57,6 @@ public class  SequenceController {
         view.displayMessage("Cảm ơn bạn đã sử dụng. Chương trình kết thúc.");
     }
 
-    /**
-     * Xử lý lựa chọn nhập chuỗi mới.
-     */
     private void processInputSequence() {
         String inputMethod = "";
         while (!inputMethod.equals("a") && !inputMethod.equals("b")) {
@@ -117,9 +111,6 @@ public class  SequenceController {
         }
     }
 
-    /**
-     * Xử lý lựa chọn chức năng (Max/Min/Sort/Search).
-     */
     private void processFunctionSelection() {
         if (model.isEmpty()) {
             view.displayError("Chuỗi trống. Vui lòng nhập chuỗi trước khi chọn chức năng (Lựa chọn 1).");
@@ -150,39 +141,69 @@ public class  SequenceController {
         }
     }
 
-    /**
-     * Xử lý lựa chọn thuật toán sắp xếp.
-     */
     private void processSorting() {
+        List<NumberWrapper> currentSequence = model.getSequence();
+        
+        // 1. KIỂM TRA ĐIỀU KIỆN SẮP XẾP THÔNG MINH
+        int sortStatus = service.checkSortedStatus(currentSequence);
+        List<NumberWrapper> sequenceForSort = new ArrayList<>(currentSequence); 
+        
+        if (sortStatus != 0) {
+            String statusType = (sortStatus == 1) ? "Tăng dần" : "Giảm dần";
+            
+            view.displayMessage("\n--- Phát hiện Sắp xếp Thông minh (Smart Sort Detection) ---");
+            view.displayMessage("✅ Chuỗi đã được sắp xếp sẵn (" + statusType + "). Bỏ qua thuật toán.");
+            
+            // Nếu chuỗi đã giảm dần, ta cần đảo ngược để có kết quả TĂNG DẦN cuối cùng
+            if (sortStatus == -1) { 
+                Collections.reverse(sequenceForSort);
+                view.displayMessage("Đã thực hiện Đảo ngược để có kết quả Tăng dần.");
+            }
+            
+            // Cập nhật Model và hiển thị kết quả cuối cùng
+            model.setSequence(sequenceForSort);
+            model.setSorted(true);
+            
+            // Sử dụng formatSequence từ service
+            String finalResultStr = service.formatSequence(sequenceForSort); 
+            view.displayResult("Chuỗi ĐÃ SẮP XẾP Tăng dần (Tự động)", finalResultStr);
+            return; // Dừng lại, không cần chạy Bubble/Insertion Sort
+        }
+
+        // --- NẾU CHƯA SẮP XẾP, TIẾP TỤC CHẠY THUẬT TOÁN NHƯ BÌNH THƯỜNG ---
         view.displaySortingMethods();
         String choice = view.getInput("").toLowerCase();
         
-        List<NumberWrapper> currentSequence = model.getSequence();
-        List<NumberWrapper> sortedSequence = new ArrayList<>(currentSequence); // Tạo bản sao để sắp xếp
+        List<String> steps;
+        String sortType;
 
         switch (choice) {
             case "1": // Bubble Sort
-                service.bubbleSort(sortedSequence);
-                view.displayMessage("Đã sắp xếp chuỗi bằng Bubble Sort!");
+                sortType = "Bubble Sort";
+                steps = service.bubbleSort(sequenceForSort);
                 break;
             case "2": // Insertion Sort
-                service.insertionSort(sortedSequence);
-                view.displayMessage("Đã sắp xếp chuỗi bằng Insertion Sort!");
+                sortType = "Insertion Sort";
+                steps = service.insertionSort(sequenceForSort);
                 break;
             default:
                 view.displayError("Lựa chọn thuật toán sắp xếp không hợp lệ.");
                 return;
         }
         
-        // Cập nhật Model với chuỗi đã sắp xếp và trạng thái
-        model.setSequence(sortedSequence); 
+        // 1. Hiển thị quy trình sắp xếp
+        view.displaySortingProcess(sortType, steps);
+
+        // 2. Cập nhật Model với chuỗi đã sắp xếp và trạng thái
+        model.setSequence(sequenceForSort); 
         model.setSorted(true);
-        view.displayResult("Chuỗi đã sắp xếp", sortedSequence.stream().map(NumberWrapper::getOriginalValue).collect(Collectors.joining(", ")));
+        view.displayMessage("Đã sắp xếp chuỗi bằng " + sortType + "!");
+        
+        // 3. Hiển thị kết quả cuối cùng
+        String finalResult = service.formatSequence(sequenceForSort); // Sử dụng formatSequence từ service
+        view.displayResult("Chuỗi ĐÃ SẮP XẾP", finalResult);
     }
     
-    /**
-     * Xử lý lựa chọn tìm kiếm.
-     */
     private void processSearching() {
         view.displaySearchMethods();
         String choice = view.getInput("").toLowerCase();
@@ -197,49 +218,60 @@ public class  SequenceController {
         }
         
         List<NumberWrapper> sequence = model.getSequence();
-        int index = -1;
+        
+        // 1. LUÔN tìm tất cả các chỉ mục trong MẢNG HIỆN TẠI ("mảng cũ")
+        List<Integer> currentIndices = service.findAllIndices(sequence, target);
+        String currentIndicesStr = currentIndices.stream()
+                                                    .map(i -> String.valueOf(i))
+                                                    .collect(Collectors.joining(", "));
+
+        int rank = 0;
+        NumberWrapper foundElement = null;
+
+        if (currentIndices.isEmpty()) {
+            view.displayResult("Kết quả Tìm kiếm", "Không tìm thấy phần tử '" + targetStr + "'.");
+            return;
+        }
+
+        // Tạo bản sao và sắp xếp để tính Rank (hạng)
+        List<NumberWrapper> sortedSequence = new ArrayList<>(sequence);
+        sortedSequence.sort(Comparator.naturalOrder());
+        rank = service.findRank(sortedSequence, target);
+        foundElement = sequence.get(currentIndices.get(0));
+
 
         switch (choice) {
             case "1": // Linear Search
-                index = service.linearSearch(sequence, target);
                 view.displayMessage("Thực hiện Linear Search...");
-                // Sau Linear Search, cần xác định hạng bằng cách sắp xếp bản sao
-                if (index != -1) {
-                    List<NumberWrapper> sortedSequence = new ArrayList<>(sequence);
-                    // Sắp xếp bản sao để tìm hạng chính xác
-                    sortedSequence.sort(Comparator.naturalOrder());
-                    int rank = service.findRank(sortedSequence, target);
-                    view.displayResult("Kết quả Linear Search", "Tìm thấy tại chỉ mục: " + index + " (Giá trị thực: " + sequence.get(index).getNumericValue() + ")");
-                    view.displayElementRank(targetStr, rank);
-                } else {
-                    view.displayResult("Kết quả Linear Search", "Không tìm thấy phần tử '" + targetStr + "'.");
-                }
-                break;
-            case "2": // Binary Search
-                if (!model.isSorted()) {
-                    view.displayError("Không thể thực hiện Binary Search. Vui lòng sắp xếp chuỗi trước (Lựa chọn 2.c).");
-                    return;
-                }
                 
-                index = service.binarySearch(sequence, target);
-                view.displayMessage("Thực hiện Binary Search...");
-                if (index != -1) {
-                    // Chuỗi đã được sắp xếp, sử dụng ngay để tìm hạng
-                    int rank = service.findRank(sequence, target);
-                    view.displayResult("Kết quả Binary Search", "Tìm thấy tại chỉ mục: " + index + " (Giá trị thực: " + sequence.get(index).getNumericValue() + ")");
-                    view.displayElementRank(targetStr, rank);
-                } else {
-                    view.displayResult("Kết quả Binary Search", "Không tìm thấy phần tử '" + targetStr + "'.");
-                }
+                view.displayResult(
+                    "Kết quả Linear Search", 
+                    "Giá trị tìm thấy: " + foundElement.getOriginalValue() + 
+                    "\nIndex trong chuỗi hiện tại (Bắt đầu từ 0): " + currentIndicesStr  // Hiển thị tất cả chỉ mục cũ
+                );
+                view.displayElementRank(targetStr, rank);
                 break;
+
+            case "2": // Binary Search (Improved: Auto-sort copy + Index cũ)
+                view.displayMessage("Thực hiện Binary Search trên bản sao đã sắp xếp...");
+
+                // Tìm chỉ mục trong MẢNG ĐÃ SẮP XẾP
+                int sortedIndex = service.binarySearch(sortedSequence, target);
+                
+                view.displayResult(
+                    "Kết quả Binary Search (Trên mảng đã sắp xếp)", 
+                    "Giá trị tìm thấy : " + foundElement.getOriginalValue() + 
+                    "\nIndex trong MẢNG ĐÃ SẮP XẾP (Bắt đầu từ 0): " + (sortedIndex != -1 ? sortedIndex : "Không áp dụng cho kết quả này") +
+                    "\nIndex trong MẢNG GỐC (Bắt đầu từ 0): " + currentIndicesStr // Hiển thị chỉ mục cũ
+                );
+                view.displayElementRank(targetStr, rank);
+                break;
+                
             default:
                 view.displayError("Lựa chọn thuật toán tìm kiếm không hợp lệ.");
         }
     }
 
-    /**
-     * Xử lý lựa chọn tiếp tục/dừng lại.
-     */
     private void processContinueOptions() {
         view.displayContinueOptions();
         String choice = view.getInput("").toLowerCase();

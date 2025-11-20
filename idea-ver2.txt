@@ -14,11 +14,11 @@ Lựa chọn:
 2. Lựa chọn chức năng 
     a. Tìm giá trị lớn nhất
     b. Tìm giá trị nhỏ nhất
-    c. Sắp xếp theo thuật toán
+    c. Sắp xếp theo thuật toán (Phát hiện chuỗi đã được sắp xếp)
         - Buble sort
         - Insertion sort
-    d. Tìm kiếm phần tử --> xem phần tử này là phần tử lớn thứ bao nhiêu trong sequence
-        - Binary search
+    d. Tìm kiếm phần tử --> xem phần tử này là phần tử lớn thứ bao nhiêu trong sequence 
+        - Binary search (có thể nhập chuỗi không cần sắp xếp trước) + (trả về index trong chuỗi cũ(chưa được sắp xếp))
         - Linear search
   
 3. Lựa chọn tiếp tục hay dừng lại

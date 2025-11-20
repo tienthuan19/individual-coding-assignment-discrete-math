@@ -21,6 +21,7 @@ public class SequenceView {
         System.out.println("\n--- MENU CHỨC NĂNG ---");
         System.out.println("1. Nhập chuỗi mới");
         System.out.println("2. Lựa chọn chức năng xử lý chuỗi");
+        System.out.println("3. Tiếp tục/dừng lại");
         System.out.println("0. Thoát chương trình");
         System.out.print("Vui lòng nhập lựa chọn (0-3): ");
     }
@@ -51,7 +52,7 @@ public class SequenceView {
     public void displaySearchMethods() {
         System.out.println("\n--- 2.d. TÌM KIẾM PHẦN TỬ ---");
         System.out.println("- 1. Linear Search (Tìm kiếm tuyến tính)");
-        System.out.println("- 2. Binary Search (Tìm kiếm nhị phân - yêu cầu chuỗi phải được sắp xếp)");
+        System.out.println("- 2. Binary Search (Tìm kiếm nhị phân )");
         System.out.print("Vui lòng nhập lựa chọn (1/2): ");
     }
 
@@ -75,7 +76,7 @@ public class SequenceView {
                 String input = scanner.nextLine().trim();
                 return Integer.parseInt(input);
             } catch (NumberFormatException e) {
-                System.out.println("❌ Lỗi: Vui lòng nhập một số nguyên hợp lệ.");
+                System.out.println("Lỗi: Vui lòng nhập một số nguyên hợp lệ.");
             }
         }
     }
@@ -92,11 +93,11 @@ public class SequenceView {
     }
     
     public void displayMessage(String message) {
-        System.out.println("✅ " + message);
+        System.out.println(message);
     }
     
     public void displayError(String error) {
-        System.out.println("❌ Lỗi: " + error);
+        System.out.println("Lỗi: " + error);
     }
     
     public void displayResult(String title, String result) {
@@ -118,4 +119,14 @@ public class SequenceView {
     public void displaySeparator() {
         System.out.println("==================================================");
     }
+
+    // Thêm phương thức này vào class SequenceView
+
+    public void displaySortingProcess(String title, List<String> steps) {
+        System.out.println("\n--- QUY TRÌNH " + title.toUpperCase() + " ---");
+        for (String step : steps) {
+            System.out.println(step);
+        }
+        System.out.println("-------------------------------------");
+}
 }
